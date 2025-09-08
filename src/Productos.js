@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 
-function Productos() {
+function Productos({ onAgregar }) {
   const [productos, setProductos] = useState([]);
 
   useEffect(() => {
@@ -20,6 +20,9 @@ function Productos() {
             <p>{producto.descripcion}</p>
             <p>Precio: ${producto.precio}</p>
             <p>Stock: {producto.stock}</p>
+            <button onClick={() => onAgregar(producto)}>
+              Agregar al carrito
+            </button>
           </li>
         ))}
       </ul>

@@ -1,11 +1,6 @@
-import React, { useState } from "react";
-import Productos from "./Productos";
-import Carrito from "./Carrito";
-import Auth from "./Auth";
+import React from "react";
 
-function App() {
-  const [carrito, setCarrito] = useState([]);
-
+function Carrito({ carrito, setCarrito }) {
   const agregarAlCarrito = (producto) => {
     const existe = carrito.find((item) => item.id === producto.id);
     if (existe) {
@@ -36,13 +31,31 @@ function App() {
     }
   };
 
+  const total = carrito.reduce(
+    (acc, item) => acc + item.precio * item.cantidad,
+    0
+  );
+
   return (
-    <div className="App">
-      <Auth />
-      <Productos onAgregar={agregarAlCarrito} />
-      <Carrito carrito={carrito} setCarrito={setCarrito} />
+    <div>
+      <h2>Carrito de Compras</h2>
+      {carrito.length === 0 ? (
+        <p>No hay productos en el carrito</p>
+      ) : (
+        <ul>
+          {carrito.map((item) => (
+            <li key={item.id}>
+              {item.nombre} - Cantidad: {item.cantidad} - Precio: $
+              {(item.precio * item.cantidad).toFixed(2)}
+              <button onClick={() => agregarAlCarrito(item)}>+</button>
+              <button onClick={() => removerDelCarrito(item)}>-</button>
+            </li>
+          ))}
+        </ul>
+      )}
+      <h3>Total: ${total.toFixed(2)}</h3>
     </div>
   );
 }
 
-export default App;
+export default Carrito;
